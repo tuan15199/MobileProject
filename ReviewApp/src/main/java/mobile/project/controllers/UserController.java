@@ -2,11 +2,13 @@ package mobile.project.controllers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +39,11 @@ public class UserController {
 	private ModelMapper modelMapper;
 	private Logger logger = LoggerFactory.getLogger(UserController.class);
 
+	@GetMapping(value = "/all") 
+	public List<User> getAll() {
+		return userService.getAllUsers();
+	}
+	
 	@PostMapping("/signin")
 	@ApiOperation(value = "${UserController.signin}")
 	@ApiResponses(value = { //

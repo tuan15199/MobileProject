@@ -1,5 +1,6 @@
 package mobile.project.models;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -26,12 +27,11 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private String content;
-	private Date postDate;
+	private LocalDate postDate;
 	private LocalTime postTime;
 	
 	@ManyToOne
 	private User user;
-	@JsonIgnore
 	@ManyToOne
 	private Shop shop;
 	@JsonIgnore

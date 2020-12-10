@@ -68,7 +68,7 @@ public class UserService {
 			userRepository.save(user);
 			
 			Token token = new Token();
-			token.setAccessToken("Bearer" + jwtTokenProvider.createToken(user.getUserName(), user.getRoles()));
+			token.setAccessToken("Bearer " + jwtTokenProvider.createToken(user.getUserName(), user.getRoles()));
 			token.setUserId(user.getId());
 			token.setUserName(user.getUserName());
 			return token;

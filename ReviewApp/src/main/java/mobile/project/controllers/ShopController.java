@@ -25,4 +25,5 @@ public class ShopController {
 	public Shop getById(@PathVariable int id) {
 		return service.getById(id);
 	}
+	
 }
