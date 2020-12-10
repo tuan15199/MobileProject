@@ -29,6 +29,7 @@ public class Comment {
 	private String content;
 	private LocalDate postDate;
 	private LocalTime postTime;
+	private int likeNumber;
 	
 	@ManyToOne
 	private User user;
@@ -36,6 +37,6 @@ public class Comment {
 	private Shop shop;
 	@JsonIgnore
 	@OneToMany(mappedBy = "comment")
-	private List<Likes> likeNumber;
+	private List<Likes> likes;
 	
 }

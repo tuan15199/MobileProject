@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import mobile.project.exceptions.CustomException;
 import mobile.project.exceptions.DataAlreadyExistException;
 import mobile.project.exceptions.DataNotFoundException;
+import mobile.project.exceptions.UnauthorizationException;
 import mobile.project.utils.ErrorResponse;
 
 @ControllerAdvice
@@ -26,6 +27,11 @@ public class ExceptionController {
 	@ExceptionHandler(value = DataNotFoundException.class)
 	public ResponseEntity<Object> exception(DataNotFoundException exception) {
 		return ErrorResponse.getFormattedError(exception.errorField + " not found", HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(value = UnauthorizationException.class)
+	public ResponseEntity<Object> exception(UnauthorizationException exception) {
+		return ErrorResponse.getFormattedError(exception.errorField, HttpStatus.UNAUTHORIZED);
 	}
 
 }
