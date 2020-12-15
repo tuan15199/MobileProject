@@ -16,6 +16,7 @@ import mobile.project.dtos.LoginViewModel;
 import mobile.project.dtos.Token;
 import mobile.project.dtos.UserSignUp;
 import mobile.project.exceptions.CustomException;
+import mobile.project.exceptions.DataNotFoundException;
 import mobile.project.models.Address;
 import mobile.project.models.Roles;
 import mobile.project.models.User;
@@ -91,6 +92,10 @@ public class UserService {
 			throw new CustomException("The user doesn't exist", HttpStatus.NOT_FOUND);
 		}
 		return user;
+	}
+	
+	public User getUserById(int id) {
+		return userRepository.findById(id).orElseThrow(() -> new DataNotFoundException("user"));
 	}
 
 	public User whoami(HttpServletRequest req) {
