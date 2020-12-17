@@ -108,8 +108,12 @@ public class UserService {
 		return user;
 	}
 
-	public User getUserById(int id) {
-		return userRepository.findById(id).orElseThrow(() -> new DataNotFoundException("user"));
+	public UserReturnDto getUserById(int id) {
+		User user = userRepository.findById(id).orElseThrow(() -> new DataNotFoundException("user"));
+		UserReturnDto result = new UserReturnDto(user.getId(), user.getUserName(), user.getAddress().getDetail(),
+				user.getAddress().getDistrict(), user.getAddress().getCity(), user.getRoles());
+		
+		return result;
 	}
 
 	public User whoami(HttpServletRequest req) {

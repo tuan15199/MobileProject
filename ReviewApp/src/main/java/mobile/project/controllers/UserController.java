@@ -22,7 +22,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import mobile.project.dtos.LoginViewModel;
 import mobile.project.dtos.Token;
-import mobile.project.dtos.UserDataDTO;
 import mobile.project.dtos.UserReturnDto;
 import mobile.project.dtos.UserSignUp;
 import mobile.project.models.Roles;
@@ -47,7 +46,7 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/get/{id}")
-	public User getUserById(@PathVariable int id) {
+	public UserReturnDto getUserById(@PathVariable int id) {
 		return userService.getUserById(id);
 	}
 	
