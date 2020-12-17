@@ -1,5 +1,6 @@
 package mobile.project.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import mobile.project.dtos.LoginViewModel;
 import mobile.project.dtos.Token;
+import mobile.project.dtos.UserReturnDto;
 import mobile.project.dtos.UserSignUp;
 import mobile.project.exceptions.CustomException;
 import mobile.project.exceptions.DataNotFoundException;
@@ -29,8 +31,9 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired AddressRepository addressRepo;
+
+	@Autowired
+	AddressRepository addressRepo;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -43,12 +46,12 @@ public class UserService {
 
 	public Token signin(LoginViewModel loginInfo) {
 		try {
-			authenticationManager
-					.authenticate(new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword()));
+			authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword()));
 			Token token = new Token();
 			token.setAccessToken("Bearer " + jwtTokenProvider.createToken(loginInfo.getUsername(),
 					userRepository.findByUserName(loginInfo.getUsername()).getRoles()));
-			
+
 			User user = userRepository.findByUserName(loginInfo.getUsername());
 			token.setUserId(user.getId());
 			token.setUserName(user.getUserName());
@@ -60,14 +63,15 @@ public class UserService {
 
 	public Token signup(UserSignUp signUpInfo, List<Roles> roles) {
 		User user = new User();
-		
+
 		if (!userRepository.existsByUserName(signUpInfo.getUsername())) {
 			user.setUserName(signUpInfo.getUsername());
 			user.setPassword(passwordEncoder.encode(signUpInfo.getPassword()));
 			user.setRoles(roles);
-			user.setAddress(addressRepo.save(new Address(signUpInfo.getAddressDetail(), signUpInfo.getAddressDistrict(), signUpInfo.getAddressCity())));
+			user.setAddress(addressRepo.save(new Address(signUpInfo.getAddressDetail(), signUpInfo.getAddressDistrict(),
+					signUpInfo.getAddressCity())));
 			userRepository.save(user);
-			
+
 			Token token = new Token();
 			token.setAccessToken("Bearer " + jwtTokenProvider.createToken(user.getUserName(), user.getRoles()));
 			token.setUserId(user.getId());
@@ -82,8 +86,16 @@ public class UserService {
 		userRepository.deleteByUserName(username);
 	}
 
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
+	public List<UserReturnDto> getAllUsers() {
+		List<UserReturnDto> result = new ArrayList<>();
+		List<User> users = userRepository.findAll();
+
+		for (User u : users) {
+			UserReturnDto user = new UserReturnDto(u.getUserName(), u.getAddress().getDetail(),
+					u.getAddress().getDistrict(), u.getAddress().getCity(), u.getRoles());
+			result.add(user);
+		}
+		return result;
 	}
 
 	public User search(String username) {
@@ -93,7 +105,7 @@ public class UserService {
 		}
 		return user;
 	}
-	
+
 	public User getUserById(int id) {
 		return userRepository.findById(id).orElseThrow(() -> new DataNotFoundException("user"));
 	}

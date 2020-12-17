@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiResponses;
 import mobile.project.dtos.LoginViewModel;
 import mobile.project.dtos.Token;
 import mobile.project.dtos.UserDataDTO;
+import mobile.project.dtos.UserReturnDto;
 import mobile.project.dtos.UserSignUp;
 import mobile.project.models.Roles;
 import mobile.project.models.User;
@@ -41,7 +42,7 @@ public class UserController {
 	private Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@GetMapping(value = "/all") 
-	public List<User> getAll() {
+	public List<UserReturnDto> getAll() {
 		return userService.getAllUsers();
 	}
 	
