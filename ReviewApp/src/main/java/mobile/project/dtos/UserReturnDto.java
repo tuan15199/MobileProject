@@ -11,15 +11,16 @@ import mobile.project.models.Roles;
 @Setter
 @NoArgsConstructor
 public class UserReturnDto {
+	private Integer id;
 	private String username;
 	private String addressDetail;
 	private String addressDistrict;
 	private String addressCity;
 	List<Roles> roles;
 	
-	public UserReturnDto(String username, String addressDetail, String addressDistrict,
+	public UserReturnDto(Integer id, String username, String addressDetail, String addressDistrict,
 			String addressCity, List<Roles> roles) {
-		super();
+		this.id = id;
 		this.username = username;
 		this.addressDetail = addressDetail;
 		this.addressDistrict = addressDistrict;

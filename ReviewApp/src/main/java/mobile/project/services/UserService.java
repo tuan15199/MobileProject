@@ -68,8 +68,10 @@ public class UserService {
 			user.setUserName(signUpInfo.getUsername());
 			user.setPassword(passwordEncoder.encode(signUpInfo.getPassword()));
 			user.setRoles(roles);
-			user.setAddress(addressRepo.save(new Address(signUpInfo.getAddressDetail(), signUpInfo.getAddressDistrict(),
-					signUpInfo.getAddressCity())));
+			Address adr = new Address(signUpInfo.getAddressDetail(), signUpInfo.getAddressDistrict(),
+					signUpInfo.getAddressCity());
+			addressRepo.save(adr);
+			user.setAddress(adr);
 			userRepository.save(user);
 
 			Token token = new Token();
@@ -91,7 +93,7 @@ public class UserService {
 		List<User> users = userRepository.findAll();
 
 		for (User u : users) {
-			UserReturnDto user = new UserReturnDto(u.getUserName(), u.getAddress().getDetail(),
+			UserReturnDto user = new UserReturnDto(u.getId(), u.getUserName(), u.getAddress().getDetail(),
 					u.getAddress().getDistrict(), u.getAddress().getCity(), u.getRoles());
 			result.add(user);
 		}

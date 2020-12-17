@@ -67,7 +67,7 @@ public class UserController {
 			@ApiResponse(code = 400, message = "Something went wrong"), //
 			@ApiResponse(code = 403, message = "Access denied"), //
 			@ApiResponse(code = 422, message = "Username is already in use") })
-	public Token signup(@ApiParam("Signup User") @RequestBody UserDataDTO user) {
+	public Token signup(@ApiParam("Signup User") @RequestBody UserSignUp user) {
 		logger.info("User sign up successfully!");
 		return userService.signup(modelMapper.map(user, UserSignUp.class), new ArrayList<Roles>(Arrays.asList(Roles.ROLE_CLIENT)));
 	}
