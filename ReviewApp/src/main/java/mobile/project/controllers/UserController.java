@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import mobile.project.dtos.ChangePasswordDto;
+import mobile.project.dtos.LoginReturnDto;
 import mobile.project.dtos.LoginViewModel;
 import mobile.project.dtos.Token;
 import mobile.project.dtos.UserReturnDto;
@@ -50,12 +53,17 @@ public class UserController {
 		return userService.getUserById(id);
 	}
 	
+	@PutMapping(value = "/{id}/password/change")
+	public void changePassword(@PathVariable Integer id, @RequestBody ChangePasswordDto newPassword) {
+		userService.changePassword(id, newPassword);
+	}
+	
 	@PostMapping("/signin")
 	@ApiOperation(value = "${UserController.signin}")
 	@ApiResponses(value = { //
 			@ApiResponse(code = 400, message = "Something went wrong"), //
 			@ApiResponse(code = 422, message = "Invalid username/password supplied") })
-	public Token login(@RequestBody LoginViewModel user) {
+	public LoginReturnDto login(@RequestBody LoginViewModel user) {
 		logger.info("User accessed successfully!");
 		return userService.signin(user);
 	}

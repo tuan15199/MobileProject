@@ -26,4 +26,10 @@ public class ShopController {
 		return service.getById(id);
 	}
 	
+	// get shop by type
+	@GetMapping(value = "shop/type/{type}")
+	public Shop getShopByType(@PathVariable int type) {
+		return service.getShopByType(type);
+	}
+	
 }

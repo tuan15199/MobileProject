@@ -26,4 +26,8 @@ public class ShopService {
 		return repo.findById(id).orElseThrow(() -> new DataNotFoundException("shop"));
 	}
 	
+	// get shop by type
+	public Shop getShopByType(int type) {
+		return repo.getShopByType(type);
+	}
 }

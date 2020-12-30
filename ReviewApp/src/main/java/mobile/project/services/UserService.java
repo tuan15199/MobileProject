@@ -13,6 +13,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import mobile.project.dtos.ChangePasswordDto;
+import mobile.project.dtos.LoginReturnDto;
 import mobile.project.dtos.LoginViewModel;
 import mobile.project.dtos.Token;
 import mobile.project.dtos.UserReturnDto;
@@ -44,10 +46,13 @@ public class UserService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	public Token signin(LoginViewModel loginInfo) {
+	public LoginReturnDto signin(LoginViewModel loginInfo) {
+		LoginReturnDto response = new LoginReturnDto();
+
 		try {
 			authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword()));
+
 			Token token = new Token();
 			token.setAccessToken("Bearer " + jwtTokenProvider.createToken(loginInfo.getUsername(),
 					userRepository.findByUserName(loginInfo.getUsername()).getRoles()));
@@ -55,10 +60,17 @@ public class UserService {
 			User user = userRepository.findByUserName(loginInfo.getUsername());
 			token.setUserId(user.getId());
 			token.setUserName(user.getUserName());
-			return token;
+
+			response.setData(token);
+			response.setErrorCode(0);
+
 		} catch (AuthenticationException e) {
-			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+//			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+			response.setData(null);
+			response.setErrorCode(1);
+			response.setErrorMessage("Invalid username/password supplied");
 		}
+		return response;
 	}
 
 	public Token signup(UserSignUp signUpInfo, List<Roles> roles) {
@@ -68,9 +80,22 @@ public class UserService {
 			user.setUserName(signUpInfo.getUsername());
 			user.setPassword(passwordEncoder.encode(signUpInfo.getPassword()));
 			user.setRoles(roles);
+			
 			Address adr = new Address(signUpInfo.getAddressDetail(), signUpInfo.getAddressDistrict(),
 					signUpInfo.getAddressCity());
-			addressRepo.save(adr);
+			
+			if (addressRepo.findByDetail(adr.getDetail()) != null) {
+				List<Address> existeds = addressRepo.findByDetail(adr.getDetail());
+				for(Address e: existeds) {
+					if (e.getDistrict().equalsIgnoreCase(adr.getDistrict())
+							&& e.getCity().equalsIgnoreCase(adr.getCity())) {
+						adr = e;
+					}
+				}
+			}
+			else 
+				addressRepo.save(adr);
+			
 			user.setAddress(adr);
 			userRepository.save(user);
 
@@ -108,11 +133,23 @@ public class UserService {
 		return user;
 	}
 
+	public void changePassword(Integer id, ChangePasswordDto newPassword) {
+		User user = new User();
+
+		if (id != null) {
+			user = userRepository.findById(id).orElseThrow(() -> new DataNotFoundException("user"));
+		}
+
+		user.setPassword(passwordEncoder.encode(newPassword.getNewPassword()));
+		userRepository.save(user);
+
+	}
+
 	public UserReturnDto getUserById(int id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new DataNotFoundException("user"));
 		UserReturnDto result = new UserReturnDto(user.getId(), user.getUserName(), user.getAddress().getDetail(),
 				user.getAddress().getDistrict(), user.getAddress().getCity(), user.getRoles());
-		
+
 		return result;
 	}
 

@@ -6,7 +6,7 @@ public class CustomException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String message;
+	public String message = null;
 	private final HttpStatus httpStatus;
 
 	public CustomException(String message, HttpStatus httpStatus) {

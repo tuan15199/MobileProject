@@ -2,6 +2,7 @@ package mobile.project.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -37,4 +38,7 @@ public class User {
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Comment> comments;
+	@JsonIgnore
+	@OneToMany(mappedBy = "user")
+	private List<Star> starts;
 }

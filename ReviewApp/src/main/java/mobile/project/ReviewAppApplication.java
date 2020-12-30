@@ -34,10 +34,6 @@ public class ReviewAppApplication implements CommandLineRunner {
 		return new ModelMapper();
 	}
 	
-//	@Bean
-//	public BCryptPasswordEncoder passwordEncoder() {
-//	    return new BCryptPasswordEncoder();
-//	}
 
 	@Override
 	public void run(String... args) throws Exception {

@@ -2,6 +2,7 @@ package mobile.project.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,10 +32,13 @@ public class Shop {
 	private int maxPrice;
 	private double star;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private Address address;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "shop")
 	private List<Comment> comments;
+	@JsonIgnore
+	@OneToMany(mappedBy = "shop")
+	private List<Star> starts;
 }
