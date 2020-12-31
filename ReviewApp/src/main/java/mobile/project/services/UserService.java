@@ -118,9 +118,11 @@ public class UserService {
 		List<User> users = userRepository.findAll();
 
 		for (User u : users) {
-			UserReturnDto user = new UserReturnDto(u.getId(), u.getUserName(), u.getAddress().getDetail(),
-					u.getAddress().getDistrict(), u.getAddress().getCity(), u.getRoles());
-			result.add(user);
+			if(!u.getRoles().get(0).toString().equals("ROLE_ADMIN")) {
+				UserReturnDto user = new UserReturnDto(u.getId(), u.getUserName(), u.getAddress().getDetail(),
+						u.getAddress().getDistrict(), u.getAddress().getCity(), u.getRoles());
+				result.add(user);
+			}
 		}
 		return result;
 	}

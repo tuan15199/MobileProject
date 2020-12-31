@@ -21,13 +21,13 @@ public class ShopController {
 	}
 	
 	// get shop by id
-	@GetMapping(value = "/shop/{id}")
+	@GetMapping(value = "/shops/{id}")
 	public Shop getById(@PathVariable int id) {
 		return service.getById(id);
 	}
 	
 	// get shop by type
-	@GetMapping(value = "shop/type/{type}")
+	@GetMapping(value = "shops/type/{type}")
 	public Shop getShopByType(@PathVariable int type) {
 		return service.getShopByType(type);
 	}

@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,6 +78,11 @@ public class UserController {
 	public Token signup(@ApiParam("Signup User") @RequestBody UserSignUp user) {
 		logger.info("User sign up successfully!");
 		return userService.signup(modelMapper.map(user, UserSignUp.class), new ArrayList<Roles>(Arrays.asList(Roles.ROLE_CLIENT)));
+	}
+	
+	@DeleteMapping(value = "delete/{username}")
+	public void deleteUser(@PathVariable String username) {
+		userService.delete(username);
 	}
 
 }
