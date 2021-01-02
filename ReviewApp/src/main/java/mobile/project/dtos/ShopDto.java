@@ -20,9 +20,13 @@ public class ShopDto {
 	private String addressDetail;
 	private String addressDistrict;
 	private String addressCity;
+	private String picture1;
+	private String picture2;
+	private String picture3;
 	
 	public ShopDto(int id, String name, ShopType type, String openTime, String closeTime, int minPrice, int maxPrice,
-			double star, String addressDetail, String addressDistrict, String addressCity) {
+			double star, String addressDetail, String addressDistrict, String addressCity, String picture1,
+			String picture2, String picture3) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
@@ -34,5 +38,8 @@ public class ShopDto {
 		this.addressDetail = addressDetail;
 		this.addressDistrict = addressDistrict;
 		this.addressCity = addressCity;
+		this.picture1 = picture1;
+		this.picture2 = picture2;
+		this.picture3 = picture3;
 	}
 }

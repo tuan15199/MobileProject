@@ -31,8 +31,11 @@ public class Shop {
 	private int minPrice;
 	private int maxPrice;
 	private double star;
+	private String picture1;
+	private String picture2;
+	private String picture3;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL, orphanRemoval = true)
 	private Address address;
 
 	@JsonIgnore
