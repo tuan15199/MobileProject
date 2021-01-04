@@ -55,8 +55,8 @@ public class UserController {
 	}
 	
 	@PutMapping(value = "/{id}/password/change")
-	public void changePassword(@PathVariable Integer id, @RequestBody ChangePasswordDto newPassword) {
-		userService.changePassword(id, newPassword);
+	public LoginReturnDto changePassword(@PathVariable Integer id, @RequestBody ChangePasswordDto newPassword) {
+		return userService.changePassword(id, newPassword);
 	}
 	
 	@PostMapping("/signin")

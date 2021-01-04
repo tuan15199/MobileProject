@@ -135,7 +135,7 @@ public class UserService {
 		return user;
 	}
 
-	public void changePassword(Integer id, ChangePasswordDto newPassword) {
+	public LoginReturnDto changePassword(Integer id, ChangePasswordDto newPassword) {
 		User user = new User();
 
 		if (id != null) {
@@ -144,7 +144,12 @@ public class UserService {
 
 		user.setPassword(passwordEncoder.encode(newPassword.getNewPassword()));
 		userRepository.save(user);
-
+		
+		LoginReturnDto result = new LoginReturnDto();
+		result.setData(null);
+		result.setErrorCode(0);
+		result.setErrorMessage("");
+		return result;
 	}
 
 	public UserReturnDto getUserById(int id) {

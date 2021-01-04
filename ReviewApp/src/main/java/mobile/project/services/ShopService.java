@@ -107,8 +107,10 @@ public class ShopService {
 	// create shop
 	public Shop createShop(String shopDtoStr, MultipartFile[] files)
 			throws JsonMappingException, JsonProcessingException {
-		Shop shop = new Shop();
+		
 		ShopDto shopDto = objectMapper.readValue(shopDtoStr, ShopDto.class);
+		
+		Shop shop = new Shop();
 		Address address = new Address(shopDto.getAddressDetail(), shopDto.getAddressDistrict(),
 				shopDto.getAddressCity());
 
