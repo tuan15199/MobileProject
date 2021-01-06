@@ -50,6 +50,17 @@ public class CommentService {
 		return result;
 	}
 
+	public List<CommentDto> getCommentByShop(int shopId) {
+		List<CommentDto> result = new ArrayList<CommentDto>();
+		List<Comment> comments = commentRepo.getCommentByShopId(shopId);
+		for (Comment comment : comments) {
+			result.add(
+					new CommentDto(comment.getId(), comment.getContent(), comment.getPostDate(), comment.getPostTime(),
+							comment.getLikeNumber(), comment.getUser().getId(), comment.getShop().getId()));
+		}
+		return result;
+	}
+
 	public CommentDto addComment(CommentDto comDto) {
 		Comment comment = new Comment();
 
