@@ -50,6 +50,21 @@ public class ShopService {
 		}
 		return result;
 	}
+	
+	// get all existed cities
+	public List<String> getAllCities() {
+		return repo.getAllCities();
+	}
+	
+	// get shops by city
+	public List<ShopDto> getShopByCity(String city) {
+		List<Shop> shops = repo.getShopByCity(city);
+		List<ShopDto> result = new ArrayList<>();
+		for (Shop e : shops) {
+			result.add(convertShopToDto(e));
+		}
+		return result;
+	}
 
 	// get shop by id
 	public ShopDto getById(int id) {
@@ -58,8 +73,13 @@ public class ShopService {
 	}
 
 	// get shop by type
-	public Shop getShopByType(int type) {
-		return repo.getShopByType(type);
+	public List<ShopDto> getShopByType(int type) {
+		List<Shop> shops = repo.getShopByType(type);
+		List<ShopDto> result = new ArrayList<>();
+		for (Shop e : shops) {
+			result.add(convertShopToDto(e));
+		}
+		return result;
 	}
 
 	public Address isAddressExist(Address adr) {

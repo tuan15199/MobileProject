@@ -29,7 +29,6 @@ import mobile.project.dtos.Token;
 import mobile.project.dtos.UserReturnDto;
 import mobile.project.dtos.UserSignUp;
 import mobile.project.models.Roles;
-import mobile.project.models.User;
 import mobile.project.services.UserService;
 
 @RestController
@@ -78,6 +77,17 @@ public class UserController {
 	public Token signup(@ApiParam("Signup User") @RequestBody UserSignUp user) {
 		logger.info("User sign up successfully!");
 		return userService.signup(modelMapper.map(user, UserSignUp.class), new ArrayList<Roles>(Arrays.asList(Roles.ROLE_CLIENT)));
+	}
+	
+	@PostMapping("/signup/admin")
+	@ApiOperation(value = "${UserController.signup}")
+	@ApiResponses(value = { //
+			@ApiResponse(code = 400, message = "Something went wrong"), //
+			@ApiResponse(code = 403, message = "Access denied"), //
+			@ApiResponse(code = 422, message = "Username is already in use") })
+	public Token signupAdmin(@ApiParam("Signup User") @RequestBody UserSignUp user) {
+		logger.info("User sign up successfully!");
+		return userService.signup(modelMapper.map(user, UserSignUp.class), new ArrayList<Roles>(Arrays.asList(Roles.ROLE_ADMIN)));
 	}
 	
 	@DeleteMapping(value = "delete/{username}")

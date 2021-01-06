@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +40,18 @@ public class ShopController {
 	public List<ShopDto> getAll() {
 		return service.getAll();
 	}
+	
+	// get all cities
+	@GetMapping(value = "/cities")
+	public List<String> getCities() {
+		return service.getAllCities();
+	}
+	
+	// get shops by city
+		@GetMapping(value = "/shops/location")
+		public List<ShopDto> getShopByCity(@RequestParam String city) {
+			return service.getShopByCity(city);
+		}
 	
 	@GetMapping("/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
@@ -73,11 +85,12 @@ public class ShopController {
 
 	// get shop by type
 	@GetMapping(value = "shops/type/{type}")
-	public Shop getShopByType(@PathVariable int type) {
+	public List<ShopDto> getShopByType(@PathVariable int type) {
 		return service.getShopByType(type);
 	}
 
 	// create shop
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(value = "shops")
 	public Shop createShop(@RequestParam("files") MultipartFile[] files, @RequestParam("shop") String shopDtoStr)
 			throws JsonMappingException, JsonProcessingException {
@@ -85,12 +98,14 @@ public class ShopController {
 	}
 
 	// update shop
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value = "shops/{id}")
 	public Shop updateShop(@PathVariable int id, @RequestParam("files") MultipartFile[] files, @RequestParam("shop") String shopDtoStr) throws JsonMappingException, JsonProcessingException {
 		return service.updateShop(id, shopDtoStr, files);
 	}
 
 	// delete shop
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping(value = "shops/{id}")
 	public void deleteShop(@PathVariable int id) {
 		service.delete(id);

@@ -29,18 +29,18 @@ public class LikeService {
 	@Autowired
 	private CommentRepository comRepo;
 
-	public boolean checkValidLike(int userId, int commentId) {
-		boolean result = true;
+	public Likes isLikeExist(int userId, int commentId) {
+		Likes result = null;
 		List<Likes> likes = likeRepo.getLikes(commentId);
 		for (Likes like : likes) {
 			if (like.getUser().getId() == userId)
-				result = false;
+				result = like;
 		}
 		return result;
 	}
 
 	public LikeDto addLike(LikeDto likeDto, int userId) {
-		if (checkValidLike(userId, likeDto.getCommentId())) {
+		if (isLikeExist(userId, likeDto.getCommentId()) == null) {
 			if (userId == likeDto.getUserId()) {
 				Likes like = new Likes();
 				Comment comment = new Comment();
@@ -67,11 +67,15 @@ public class LikeService {
 			} else
 				throw new UnauthorizationException("you cannot like this comment");
 		}
-		throw new UnauthorizationException("you already like this comment");
+		else {
+			System.out.println("hello");
+			unlike(likeDto.getCommentId(), userId);
+		}
+		return null;
 	}
 
-	public void Unlike(int likeId) {
-		likeRepo.deleteById(likeId);
+	public void unlike(int comId, int userId) {
+		likeRepo.deleteById(isLikeExist(userId, comId).getId());
 	}
 
 }

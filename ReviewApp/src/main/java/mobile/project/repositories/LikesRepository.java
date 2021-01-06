@@ -14,4 +14,7 @@ public interface LikesRepository extends JpaRepository<Likes, Integer>{
 	
 	@Query(value = "SELECT * FROM likes where likes.comment_id = :id", nativeQuery = true)
 	List<Likes> getLikes(int id);
+	
+	@Query(value = "DELETE FROM likes where likes.comment_id = :comId and likes.user_id = :userId", nativeQuery = true)
+	void unLike(int comId, int userId);
 }

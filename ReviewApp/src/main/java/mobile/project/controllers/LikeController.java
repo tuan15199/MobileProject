@@ -1,7 +1,6 @@
 package mobile.project.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +19,4 @@ public class LikeController {
 		return service.addLike(likeDto, userId);
 	}
 	
-	@DeleteMapping(value = "like/{likeId}/delete")
-	public void unlike(@PathVariable int likeId) {
-		service.Unlike(likeId);
-	}
 }

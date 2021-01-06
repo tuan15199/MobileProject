@@ -36,15 +36,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()//
         .antMatchers("/users/signin").permitAll()
         .antMatchers("/users/signup").permitAll()
+        .antMatchers("/users/signup/admin").permitAll()
+        .antMatchers(HttpMethod.GET, "/*/*/*").permitAll()
         .antMatchers(HttpMethod.GET, "/*/*").permitAll()
         .antMatchers(HttpMethod.GET, "/*").permitAll()
-        .antMatchers(HttpMethod.PUT, "/orderCancel/*").permitAll()
-        .antMatchers(HttpMethod.POST, "/order").permitAll()
-        .antMatchers("/users/signup").permitAll()
         .antMatchers("/h2-console/**/**").permitAll()
         // Disallow everything else..
-        .anyRequest().permitAll();
-//        authenticated();
+        .anyRequest().authenticated();
 
     // If a user try to access a resource without having enough permissions
     http.exceptionHandling().accessDeniedPage("/login");

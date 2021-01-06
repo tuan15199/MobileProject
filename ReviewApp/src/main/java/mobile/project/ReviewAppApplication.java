@@ -1,9 +1,5 @@
 package mobile.project;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.apache.tomcat.jni.Address;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,9 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import mobile.project.dtos.UserSignUp;
-import mobile.project.models.Roles;
-import mobile.project.models.User;
 import mobile.project.property.FileStorageProperties;
 import mobile.project.services.UserService;
 
@@ -48,7 +41,7 @@ public class ReviewAppApplication implements CommandLineRunner {
 //		UserSignUp admin = new UserSignUp();
 //		admin.setUsername("tuan");
 //		admin.setPassword("tuan");
-//		admin.setAddressDetail("20/11 Nguyen Van Luong");
+//		admin.setAddressDetail("200/119 Nguyen Van Luong");
 //		admin.setAddressDistrict("Go Vap");
 //		admin.setAddressCity("Ho Chi Minh");
 //
