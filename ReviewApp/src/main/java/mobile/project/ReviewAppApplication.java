@@ -43,16 +43,16 @@ public class ReviewAppApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		userService.delete("tuan");
-
-		UserSignUp admin = new UserSignUp();
-		admin.setUsername("tuan");
-		admin.setPassword("tuan");
-		admin.setAddressDetail("20/11 Nguyen Van Luong");
-		admin.setAddressDistrict("Go Vap");
-		admin.setAddressCity("Ho Chi Minh");
-
-		userService.signup(admin, new ArrayList<Roles>(Arrays.asList(Roles.ROLE_ADMIN)));
+//		userService.delete("tuan");
+//
+//		UserSignUp admin = new UserSignUp();
+//		admin.setUsername("tuan");
+//		admin.setPassword("tuan");
+//		admin.setAddressDetail("20/11 Nguyen Van Luong");
+//		admin.setAddressDistrict("Go Vap");
+//		admin.setAddressCity("Ho Chi Minh");
+//
+//		userService.signup(admin, new ArrayList<Roles>(Arrays.asList(Roles.ROLE_ADMIN)));
 	}
 
 	@Bean

@@ -33,6 +33,8 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired ShopService shopService;
 
 	@Autowired
 	AddressRepository addressRepo;
@@ -84,19 +86,13 @@ public class UserService {
 			Address adr = new Address(signUpInfo.getAddressDetail(), signUpInfo.getAddressDistrict(),
 					signUpInfo.getAddressCity());
 			
-			if (addressRepo.findByDetail(adr.getDetail()) != null) {
-				List<Address> existeds = addressRepo.findByDetail(adr.getDetail());
-				for(Address e: existeds) {
-					if (e.getDistrict().equalsIgnoreCase(adr.getDistrict())
-							&& e.getCity().equalsIgnoreCase(adr.getCity())) {
-						adr = e;
-					}
-				}
-			}
-			else 
+			if(shopService.isAddressExist(adr) != null) {
+				user.setAddress(adr);
+			} else {
 				addressRepo.save(adr);
-			
-			user.setAddress(adr);
+				user.setAddress(adr);
+			}
+
 			userRepository.save(user);
 
 			Token token = new Token();
@@ -110,7 +106,8 @@ public class UserService {
 	}
 
 	public void delete(String username) {
-		userRepository.deleteByUserName(username);
+		if(userRepository.findByUserName(username) != null)
+			userRepository.deleteByUserName(username);
 	}
 
 	public List<UserReturnDto> getAllUsers() {
